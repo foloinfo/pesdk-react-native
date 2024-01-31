@@ -43,7 +43,6 @@ static RNPESDKWillPresentBlock _willPresentPhotoEditViewController = nil;
         resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
 {
   [self present:^PESDKMediaEditViewController * _Nullable(PESDKConfiguration * _Nonnull configuration, NSData * _Nullable serializationData) {
-
     PESDKPhoto *photoAsset = photo;
     PESDKPhotoEditModel *photoEditModel = [[PESDKPhotoEditModel alloc] init];
 
