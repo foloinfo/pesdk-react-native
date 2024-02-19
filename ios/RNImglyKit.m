@@ -52,6 +52,59 @@ const struct RN_IMGLY_Constants RN_IMGLY = {
   }
 #endif
 
+  //@"pesdk_adjustments_title_name": @"Adjust",
+  //@"pesdk_adjustments_button_reset": @"リセット",
+  //@"pesdk_adjustments_button_brightnessTool": @"Brightness",
+  //@"pesdk_adjustments_button_contrastTool": @"Contrast",
+  //@"pesdk_adjustments_button_saturationTool": @"Saturation",
+  //@"pesdk_adjustments_button_clarityTool": @"Clarity",
+  //@"pesdk_adjustments_button_shadowsTool": @"Shadows",
+  //@"pesdk_adjustments_button_highlightsTool": @"Highlights",
+  //@"pesdk_adjustments_button_exposureTool": @"Exposure",
+  //@"pesdk_adjustments_button_gammaTool": @"Gamma",
+  //@"pesdk_adjustments_button_blacksTool": @"Blacks",
+  //@"pesdk_adjustments_button_whitesTool": @"Whites",
+  //@"pesdk_adjustments_button_temperatureTool": @"Temperature",
+  //@"pesdk_adjustments_button_sharpnessTool": @"Sharpness",
+
+  [PESDK setLocalizationDictionary: @{
+    @"ja": @{
+      @"pesdk_editor_title_name": @"編集",
+      @"pesdk_editor_title_savingImageSpinner": @"書き出し中",
+      @"pesdk_common_button_cancel": @"キャンセル",
+
+      @"pesdk_transform_title_name": @"切り抜き",
+      @"pesdk_transform_button_reset": @"リセット",
+      @"pesdk_transform_asset_freeCrop": @"カスタム",
+      @"pesdk_transform_asset_square": @"正方形",
+
+      @"pesdk_editor_title_discardChangesAlert": @"変更を破棄しますか？",
+      @"pesdk_editor_text_discardChangesAlert": @"このまま戻ると、編集内容は破棄されます。",
+      @"pesdk_editor_button_discardChanges": @"破棄",
+    }
+  }];
+
+  [PESDK setBundleImageBlock:^UIImage * _Nullable(NSString * _Nonnull imageName) {
+    if ([imageName isEqualToString:@"imgly_icon_save"]) {
+      CGFloat scale = [UIScreen mainScreen].scale;
+      int scaleInt = (int) roundf(scale);
+      NSString *filename = @"imgly_icon_approve_44pt";
+
+      if (scaleInt != 1){
+        NSString *scaleString = [NSString stringWithFormat:@"%d",scaleInt];
+        filename = [filename stringByAppendingString:@"@"];
+        filename = [filename stringByAppendingString:scaleString];
+        filename = [filename stringByAppendingString:@"x"];
+      }
+
+      NSURL *url = [NSBundle.imglyBundle URLForResource:filename withExtension:@"png"];
+      NSData *data = [NSData dataWithContentsOfURL:url];
+      UIImage *image = [UIImage imageWithData:data scale:scale];
+      return image;
+    }
+    return nil;
+  }];
+
   __block NSError *error = nil;
   NSData *serializationData = nil;
   if (state != nil) {
@@ -115,6 +168,7 @@ const struct RN_IMGLY_Constants RN_IMGLY = {
         configureWithBuilder(builder);
       }
     }];
+
     if (error != nil) {
       RCTLogError(@"Error while updating configuration: %@", error);
       reject(RN_IMGLY.kErrorUnableToLoad, [NSString RN_IMGLY_string:@"Unable to update configuration." withError:error], error);
